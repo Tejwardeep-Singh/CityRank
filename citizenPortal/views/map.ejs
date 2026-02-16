@@ -13,28 +13,156 @@
             <div class="nl"></div>
             <div class="nr">
                 <a href="/">Home</a>
-                <a href="/citizenComplaint">Complaint</a>
-                <a href="/dashboard">Dashboard</a>
-            </div>
+                <a href="/login">Login</a>
         </nav>
-        <div id="page1">
-            <div id="pg1-container">
-                <div class="route-form">
-                    <input type="text" id="source" placeholder="Enter source" />
-                    <button onclick="useMyLocation()">Use My Location</button>
-                    <input type="text" id="destination" placeholder="Enter destination" />
-                    <button onclick="getSafeRoute()">Find Safest Route</button>
+        <section class="map-section">
+            <div class="map-header">
+                <h1>Smart Route Planner</h1>
+                <p>Find the safest path across Amritsar</p>
+            </div>
+
+            <div class="map-wrapper">
+
+                <div class="control-panel">
+                    <input type="text" id="source" placeholder="Enter source (lat,lng)">
+                    <button onclick="useMyLocation()">📍 Use My Location</button>
+
+                    <input type="text" id="destination" placeholder="Enter destination (lat,lng)">
+                    <button onclick="getSafeRoute()">🚦 Find Safest Route</button>
                 </div>
 
                 <div id="routeMap"></div>
+
             </div>
-        </div>
-        <p style="color:red"><%= roads ? roads.length : "No roads variable" %></p>
+
+        </section>
+
         <div id="copywright">
             <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
         </div>
     </main>
+    
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <script>
+        const roadsData = JSON.parse('<%- JSON.stringify(roads || []) %>');
+
+        const map = L.map('routeMap').setView([31.6340, 74.8723], 12);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18
+        }).addTo(map);
+
+        const roadsLayer = L.layerGroup().addTo(map);
+        const routeLayer = L.layerGroup().addTo(map);
+        const markerLayer = L.layerGroup().addTo(map);
+
+       
+        roadsData.forEach(road => {
+
+            if (!road.geometry || !road.geometry.coordinates) return;
+
+            const latLngCoords = road.geometry.coordinates.map(coord => [
+                coord[1],
+                coord[0]
+            ]);
+
+            let color = "green";
+            const condition = (road.condition || "").toLowerCase();
+
+            if (condition === "damaged") color = "red";
+            if (condition === "under_repair") color = "orange";
+
+            L.polyline(latLngCoords, {
+                color: color,
+                weight: 4 + (road.severity || 1),
+                opacity: 0.8
+            }).bindPopup(`
+                <b>${road.name || "Road"}</b><br>
+                Condition: ${road.condition}<br>
+                Severity: ${road.severity || 0}
+            `).addTo(roadsLayer);
+        });
+
+
+        function useMyLocation() {
+            if (!navigator.geolocation) return alert("Geolocation not supported");
+
+            navigator.geolocation.getCurrentPosition(pos => {
+                const lat = pos.coords.latitude;
+                const lng = pos.coords.longitude;
+
+                document.getElementById("source").value = lat + "," + lng;
+
+                markerLayer.clearLayers();
+
+                L.marker([lat, lng])
+                    .bindPopup("You are here")
+                    .addTo(markerLayer);
+
+                map.setView([lat, lng], 15);
+            });
+        }
+
+        async function getSafeRoute() {
+
+        const source = document.getElementById("source").value;
+        const destination = document.getElementById("destination").value;
+
+        const response = await fetch("/safe-route", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ source, destination })
+        });
+
+        const data = await response.json();
+
+        console.log("ROUTE DATA:", data);
+
+        routeLayer.clearLayers();
+
+        if (!data.route || !data.route.geometry) {
+            alert("No route found");
+            return;
+        }
+
+        const routeCoords = data.route.geometry.coordinates.map(coord => [
+            coord[1], // lat
+            coord[0]  // lng
+        ]);
+
+        L.polyline(routeCoords, {
+            color: "blue",
+            weight: 4,
+            opacity: 0.7,
+            dashArray: "6,6"
+        }).addTo(routeLayer);
+
+        routeLayer.bringToFront();
+        map.fitBounds(routeLayer.getBounds());
+    }
+
+
+        const legend = L.control({ position: "bottomright" });
+
+        legend.onAdd = function () {
+            const div = L.DomUtil.create("div", "legend");
+            div.innerHTML = `
+                <b>Road Conditions</b><br>
+                <span style="color:green;">■</span> Good<br>
+                <span style="color:orange;">■</span> Under Repair<br>
+                <span style="color:red;">■</span> Damaged<br>
+                <span style="color:blue;">■</span> Best Route
+            `;
+            return div;
+        };
+
+        legend.addTo(map);
+
+    </script>
+
+    <!-- <script>
         const currentYear = new Date().getFullYear();
         document.getElementById('year').textContent = currentYear;
     </script>
@@ -86,9 +214,17 @@
 );
 console.log("ROADS:", roadsData);
 
-rroadsData.forEach(road => {
+roadsData.forEach(road => {
+    console.log("FULL ROAD OBJECT:", road);
+    console.log("GEOMETRY:", road.geometry);
+    console.log("COORDINATES:", road.geometry?.coordinates);
 
     if (!road.geometry) return;
+    // Convert [lng, lat] to [lat, lng]
+    const latLngCoords = road.geometry.coordinates.map(coord => [
+        coord[1],  // lat
+        coord[0]   // lng
+    ]);
 
     let condition = road.condition?.toLowerCase().trim();
     let color = "green";
@@ -96,15 +232,11 @@ rroadsData.forEach(road => {
     if (condition === "damaged") color = "red";
     else if (condition === "under_repair") color = "orange";
 
-    L.geoJSON({
-        type: "Feature",
-        geometry: road.geometry
-    }, {
-        style: {
-            color: color,
-            weight: 4
-        }
+    L.polyline(latLngCoords, {
+        color: color,
+        weight: 6
     }).addTo(routeMap);
+
 });
 
 
@@ -138,7 +270,7 @@ rroadsData.forEach(road => {
         routeMap.fitBounds(currentRouteLayer.getBounds());
     }
     
-    </script>
+    </script> -->
     <script src="/js/script.js"></script>
 </body>
 </html>

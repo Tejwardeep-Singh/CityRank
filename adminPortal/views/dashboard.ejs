@@ -4,28 +4,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
-    <title>Route Rakshak | Admin Complaints </title>
+    <link rel="stylesheet" href="/admin/css/style.css">
+    <title>Route Rakshak | Admin Dashboard </title>
 </head>
-<body>
-    <main>
-        <nav>
-            <div class="nl"></div>
-            <div class="nr">
-                <a href="/admin">Home</a>
-                <a href="/admin/adminComplaints">Complaints</a>
-                <a href="/admin/logout">Logout</a>
-            </div>
-        </nav>
-        <div id="page1">
-            <div id="pg1-container">
-                <h1>Admin Dashboard</h1>
-            </div>
+<body class="admin-dashboard">
+
+
+    <nav class="admin-nav">
+        <div class="logo">Route Rakshak</div>
+        <div class="nav-links">
+            <a href="/admin">Home</a>
+            <a href="/admin/adminComplaints">Complaints</a>
+            <a href="/admin/leaderboard">Leaderboard</a>
+            <a href="/admin/logout">Logout</a>
         </div>
-         <div id="copywright">
-            <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
-        </div>
-    </main>
+    </nav>
+
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Admin Dashboard</h1>
+        </header>
+        <section class="kpi-section">
+            <div class="kpi-card">
+                <h3>Ward Rank</h3>
+                <p><%= ward.rank%></p>
+            </div>
+
+            <div class="kpi-card">
+                <h3>Pending Complaints</h3>
+                <p><%= pendingCount %></p>
+            </div>
+
+            <div class="kpi-card">
+                <h3>Total Complaints</h3>
+                <p><%= ward.complaintsCount %></p>
+            </div>
+        </section>
+        <section class="top-wards-section">
+            <h2>Top 3 Performing Wards</h2>
+
+            <div class="top-wards">
+                <% topWards.forEach(ward => { %>
+                    <div class="ward-card">
+                        <span class="rank">#<%= ward.rank %></span>
+                        <h3>Ward <%= ward.wardNumber %></h3>
+                        <p>Score: <%= ward.score %></p>
+                    </div>
+                <% }) %>
+            </div>
+            <a href="/admin/leaderboard" class="section-link">
+                View Full Leaderboard →
+            </a>
+        </section>
+        <section class="complaint-section">
+            <h2>Complaints Overview</h2>
+
+            <div class="complaint-cards">
+                <div class="complaint-card">
+                    <h3>Pending Complaints</h3>
+                    <p><%= pendingCount %></p>
+                </div>
+
+                <div class="complaint-card">
+                    <h3>Resolved Complaints</h3>
+                    <p><%= completedCount %></p>
+                </div>
+            </div>
+            <a href="/admin/adminComplaints" class="section-link">
+                Manage Complaints →
+            </a>
+        </section>
+        
+    </div>
+    <div id="copywright">
+        <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
+    </div>
+
+
     <script>
         const currentYear = new Date().getFullYear();
         document.getElementById('year').textContent = currentYear;

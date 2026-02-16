@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/admin/css/style.css">
     <link rel="stylesheet" href="/css/style.css">
     <title>Route Rakshak | Admin </title>
 </head>
@@ -12,28 +13,36 @@
         <nav>
             <div class="nl"></div>
             <div class="nr">
-                <a href="/admin">Home</a>
-                <a href="/admin/login">Login</a>
+                <a href="/admin" class="btn-outline">Home</a>
+                <a href="/admin/login" class="btn-outline">Login</a>
             </div>
         </nav>
-        <div id="page1">
-            <div id="pg1-container">
-                <h1>ADMIN PORTAL</h1>
+        <div id="admin-hero">
+            <div class="admin-hero-content">
+                <h1>Administrative Control Panel</h1>
+                <p>Monitor ward performance, analyze rankings, and manage governance data.</p>
+                <a href="/admin/leaderboard" class="admin-cta">View Leaderboard</a>
             </div>
         </div>
-         <div id="page2">
-            <h2>Top 3 Wards</h2>
-            <div id="pg2-container">
-                
+
+        <div id="admin-overview">
+            <h2>Top Performing Wards</h2>
+            <div class="admin-cards">
+
                 <% topWards.forEach(ward => { %>
-                <p>
-                    Rank <%= ward.rank %> — Ward <%= ward.wardNumber %> (Score: <%= ward.score %>)
-                </p>
+                <div class="admin-card">
+                    <div class="admin-rank">#<%= ward.rank %></div>
+                    <h3>Ward <%= ward.wardNumber %></h3>
+                    <p>Performance Score</p>
+                    <span class="admin-score"><%= ward.score %></span>
+                </div>
                 <% }) %>
 
-                <a href="/leaderboard">View Full Rankings</a>
             </div>
+
+            <a href="/admin/leaderboard" class="admin-link">View Full Rankings →</a>
         </div>
+
          <div id="copywright">
             <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
         </div>

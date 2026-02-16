@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
-    <title>Route Rakshak | Citizen </title>
+    <link rel="stylesheet" href="/admin/css/style.css">
+    <title>Route Rakshak | Ward Leaderboard</title>
 </head>
 <body>
     <main>
@@ -12,17 +12,21 @@
             <div class="nl"></div>
             <div class="nr">
                 <a href="/admin">Home</a>
-                <a href="/admin/dashboard">Dashboard</a>
-                <a href="/admin/logout">Logout</a>
             </div>
         </nav>
-        <div id="page1">
-            <div id="pg1-container">
+        <div id="leaderboard-page1">
+            <div id="leaderboard-pg1-container">
                  <h1 style="text-align:center; margin-top:40px;">
                     🏆 City Ward Rankings
                 </h1>
 
                 <div class="leaderboard-container">
+                    <div class="leaderboard-header">
+                        <span>Rank</span>
+                        <span>Ward</span>
+                        <span>Score</span>
+                        <span>Complaints Resolved</span>
+                    </div>
 
                     <% wards.forEach((ward, index) => { %>
 

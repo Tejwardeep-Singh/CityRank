@@ -29,14 +29,36 @@ router.get("/login", (req, res) => {
 });
 
 
-router.get("/dashboard", adminAuth, (req, res) => {
-  res.render(
-    path.join(__dirname, "../../adminPortal/views/dashboard.ejs"),
-    {
-      ward_id: req.session.admin.ward_id
-    }
-  );
+router.get("/dashboard", adminAuth, async (req, res) => {
+
+  const ward = await Ward.findOne({
+      wardNumber: req.session.admin.ward_id
+    });
+
+    const topWards = await Ward.find().sort({ rank: 1 }).limit(3);
+
+  
+    const wardComplaints = await Complaint.find({
+      wardNumber: ward.wardNumber
+    });
+  
+  
+    const pendingCount = wardComplaints.filter(c => c.status === "pending").length;
+    const completedCount = wardComplaints.filter(c => c.status === "completed").length;
+  
+    res.render(
+      path.join(__dirname, "../../adminPortal/views/dashboard.ejs"),
+      {
+        citizen: req.session.citizen,
+        ward,
+        topWards,
+        pendingCount,
+        completedCount
+      }
+    );
+
 });
+
 
 
 router.post("/login", async (req, res) => {
@@ -135,7 +157,15 @@ router.post("/resolve/:id", upload.single("afterImage"), async (req, res) => {
 });
 
 
+router.get("/leaderboard", async (req, res) => {
 
+  const wards = await Ward.find().sort({ rank: 1 });
+
+  res.render(
+    path.join(__dirname, "../../adminPortal/views/leaderboard.ejs"),
+    { wards }
+  );
+});
 router.get("/logout", (req, res) => {
   req.session.destroy(() => {
     res.redirect("/admin/login");

@@ -9,31 +9,40 @@
 <body>
     <main>
         <nav>
-            <div class="nl"></div>
+            <div class="logo">Route Rakshak</div>
             <div class="nr">
                 <a href="/">Home</a>
                 <a href="/map">Maps</a>
-                <a href="/login">Login</a>
-                <a href="/register">Register</a>
+                <a href="/login" class="btn-outline">Login</a>
+                <a href="/register" class="btn-primary">Register</a>
             </div>
         </nav>
+
         <div id="page1">
             <div id="pg1-container">
-                <h1>CITIZEN PORTAL</h1>
+                <h1>Citizen Governance Dashboard</h1>
+                <p>Real-time ward rankings powered by data-driven accountability.</p>
+                <a href="/leaderboard" class="cta-btn">Explore Rankings</a>
             </div>
         </div>
+
         <div id="page2">
-            <h2>Top 3 Wards</h2>
+            <h2>Top Performing Wards</h2>
             <div id="pg2-container">
                 <% topWards.forEach(ward => { %>
-                <p>
-                    Rank <%= ward.rank %> — Ward <%= ward.wardNumber %> (Score: <%= ward.score %>)
-                </p>
+                <div class="ward-card">
+                    <div class="rank">#<%= ward.rank %></div>
+                    <div class="ward-info">
+                        <h3>Ward <%= ward.wardNumber %></h3>
+                        <p>Performance Score</p>
+                        <span class="score"><%= ward.score %></span>
+                    </div>
+                </div>
                 <% }) %>
-
-                <a href="/leaderboard">View Full Rankings</a>
+                <a href="/leaderboard" class="view-more">View Full Rankings →</a>
             </div>
         </div>
+
         <div id="copywright">
             <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
         </div>

@@ -1,11 +1,25 @@
+:root {
+  --primary: #b05f2d;
+  --dark-rust: #8c4a22;
+  --sand: #c9a06a;
+  --taupe: #b7a08c;
+  --warm-brown: #a97842;
+  --accent: #d87243;
+  --bg: #f5f2ec;
+  --text-dark: #2b2b2b;
+}
+
 *{
     padding: 0%;
     margin: 0%;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 html,body{
     height: 100%;
     width: 100%;
+    background-color: var(--bg);
+    color: var(--text-dark);
 }
 
 main{
@@ -14,243 +28,478 @@ main{
     overflow-x: hidden;
 }
 
-#page1{
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10vh;
-}
-#pg1-container{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 2vh;
-}
-#pg1-container h1{
-    font-size: 10vh;
-    color: #111;
-    font-weight: 900;
-}
-#pg1-container h2{
-    font-size: 4vh;
-    color: #3b3a3a;
-    font-weight: 900;
-}
-#pg1-container form
-{
-    height: auto;
-    width: 30vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 1vh;
-    background-color: #111;
-    border-radius: 5px;
-    padding: 2% 1%;
-}
-#pg1-container form input{
-    height:5vh;
-    width: 90%;
-}
-
-#pg1-container form button{
-    height:5vh;
-    width: 90%;
-    background-color: rgb(52, 55, 255);
-    border: none;
-    border-radius: 5px;
-    color: wheat;
-    font-size: 900;
-    font-size: 2vh;
-}
-#pg1-container p, #pg1-container a
-{
-    color: #111;
-    font-size: 2vh;
-    font-weight: 600;
-}
-nav{
-    height: 10vh;
-    width: 100vw;
-    background-color: #111;
-    color: #dadada;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: fixed;
-}
-.nr{
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 2vw;
-    padding: 0 4% 0 0;
-}
-.nr a{
-    text-decoration: none;
-    font-size: 2vh;
-    color: #dadada;
-    font-weight: 800;
-}
-#copywright
-{
-    height: 5vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #111;
-}
-#copywright p{
-    font-size: 2vh;
-    font-weight: 900;
-    color: #dadada;
-}
-#map {
-      height: 80vh;
-      width: 100%;
-    }
-
-.label
-{
-    height: auto;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2%;
-}
-.label label{
-    width: 50%;
-    color:white;
-}
-.label input, .label textarea{
-    width: 50%;
-    align-self: flex-end;
-}
 
 
-
-
-.leaderboard-container {
-    width: 80%;
-    margin: auto;
-    margin-top: 40px;
-    }
-
-    .ward-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 20px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    background: #f5f5f5;
-    font-size: 18px;
-    }
-
-    .top1 { background: gold; }
-    .top2 { background: silver; }
-    .top3 { background: #cd7f32; color: white; }
-
-    .rank-badge {
-    font-weight: bold;
-    }
-
-    .view-dashboard {
-    text-align: center;
-    margin-top: 30px;
-    }
-
-    .view-dashboard a {
-    text-decoration: none;
-    font-weight: bold;
-    color: #0077ff;
-    }
-
-    .stats-container {
+nav {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 8%;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--dark-rust);
+}
+
+.nr a {
+  margin-left: 25px;
+  text-decoration: none;
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white !important;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+.btn-outline {
+  border: 1px solid var(--primary);
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+#page1 {
+  position: relative;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 10%;
+  overflow: hidden;
+}
+#page1::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width:100%;
+  height:100%;
+  background: url('../images/amritsar-map.png') no-repeat center center;
+  background-size: cover;
+  transform: translate(-50%, -50%);
+  opacity: 0.1;   
+  filter: blur(2px);
+  z-index: 0;
+}
+#pg1-container {
+  position: relative;
+  z-index: 2;
+}
+
+
+#pg1-container h1 {
+  font-size: 3rem;
+  color: var(--dark-rust);
+  margin-bottom: 20px;
+}
+
+#pg1-container p {
+  font-size: 1.2rem;
+  color: #555;
   margin-bottom: 30px;
 }
 
-.stat-card {
-  background: #f5f5f5;
-  padding: 20px;
-  border-radius: 10px;
-  width: 200px;
+.cta-btn {
+  background: var(--accent);
+  padding: 12px 25px;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+#page2 {
+  padding: 80px 10%;
+  background: white;
   text-align: center;
 }
 
-#page2
-{
-    height: auto;
-    width: 100vw;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 2%;
-}
-#pg2-container
-{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2vh;
-}
-#pg2-container img{
-    height: 150px;
-    width: 150px;
-}
-#pg3-container h2{
-    font-size: 4vh;
-    font-weight: 900;
-}
-#pg3-container a
-{
-    color: #3b3a3a;
-    text-decoration: none;
+#page2 h2 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: var(--dark-rust);
 }
 
-#page3
-{
-    height: auto;
-    width: 100vw;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-}
-#pg3-container
-{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-.complaint-card{
-    height: auto;
-    width: 30vh;
-    display: flex;
-    align-items: start;
-    justify-content: center;
-    flex-direction: column;
-    border-radius: 5px;
-    border: 2px solid #111;
-    padding: 2%;
+#pg2-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
 }
 
-#routeMap{
-    height: 60vh;
-    width: 70vw;
-    border: 2px solid black;
+.ward-card {
+  background: var(--bg);
+  padding: 30px;
+  border-radius: 12px;
+  width: 260px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  transition: 0.3s ease;
+}
+
+.ward-card:hover {
+  transform: translateY(-5px);
+}
+
+.rank {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.ward-info h3 {
+  font-size: 1.3rem;
+  margin-bottom: 5px;
+}
+
+.score {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--dark-rust);
+}
+
+#copywright {
+  text-align: center;
+  padding: 15px;
+  background: var(--dark-rust);
+  color: white;
+  margin-top: 60px;
+}
+
+#leaderboard-page1 {
+  padding: 60px 8%;
+  background: #f5f2ec;
+  min-height: 100vh;
+}
+
+.leaderboard-container {
+  max-width: 1000px;
+  margin: 50px auto;
+}
+.leaderboard-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
+  padding: 15px 20px;
+  font-weight: 600;
+  background: #e9e2d9;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+.ward-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+  align-items: center;
+  transition: 0.3s ease;
+}
+
+.ward-row:hover {
+  transform: translateY(-3px);
+}
+.rank-badge {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #8c4a22;
+}
+.top1 {
+  background: linear-gradient(90deg, #fff6d6, white);
+  border-left: 6px solid gold;
+}
+
+.top2 {
+  background: linear-gradient(90deg, #f2f2f2, white);
+  border-left: 6px solid silver;
+}
+
+.top3 {
+  background: linear-gradient(90deg, #ffe5d0, white);
+  border-left: 6px solid #cd7f32;
+}
+.view-dashboard {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.view-dashboard a {
+  text-decoration: none;
+  font-weight: 600;
+  color: #8c4a22;
+}
+
+
+
+.citizen-hero {
+  padding: 80px 8%;
+  background: linear-gradient(
+      rgba(245,242,236,0.9),
+      rgba(245,242,236,0.95)
+  ),
+  url('../images/amritsar-map.png') center center no-repeat;
+  background-size: cover;
+  text-align: center;
+}
+
+.hero-inner h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.hero-rank {
+  margin-top: 20px;
+  display: inline-block;
+  background: white;
+  padding: 12px 25px;
+  border-radius: 40px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.hero-rank span {
+  color: #8c4a22;
+  font-size: 1.2rem;
+}
+
+
+.complaints-section {
+  padding: 50px 8%;
+}
+
+.complaints-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.complaint-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.complaint-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.resolved {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.status.completed {
+  background: #d4edda;
+  color: #155724;
+}
+
+.image-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.image-row img {
+  width: 100%;
+  max-width: 140px;
+  border-radius: 8px;
+}
+
+.verify-btn {
+  margin-top: 15px;
+  padding: 8px 15px;
+  background: #8c4a22;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.verify-btn:hover {
+  opacity: 0.9;
+}
+
+.stats-section {
+  padding: 70px 8%;
+  background: #f5f2ec;
+}
+
+.stats-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.stats-header h2 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.stats-header p {
+  color: #666;
+  font-size: 1rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+}
+
+.stat-card {
+  background: white;
+  padding: 35px 25px;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+  text-align: center;
+  transition: 0.3s ease;
+  position: relative;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+}
+
+.stat-icon {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.stat-card p {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #8c4a22;
+  margin-top: 10px;
+}
+
+.highlight-card {
+  border: 2px solid #8c4a22;
+  background: linear-gradient(
+      145deg,
+      #ffffff,
+      #f3ece4
+  );
+}
+
+.highlight-card p {
+  font-size: 2.5rem;
+}
+
+.stat-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #8c4a22;
+  font-weight: 600;
+}
+
+.map-section {
+  padding: 60px 8% 80px 8%;
+  text-align: center;
+}
+
+.map-header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.map-header p {
+  color: #666;
+  margin-bottom: 40px;
+}
+.map-wrapper {
+  position: relative;
+  max-width: 1100px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+}
+#routeMap {
+  width: 100%;
+  height: 500px;
+  border-radius: 15px;
+}
+.control-panel {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.control-panel input {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  min-width: 220px;
+}
+
+.control-panel button {
+  padding: 10px 16px;
+  background: #8c4a22;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.control-panel button:hover {
+  opacity: 0.9;
+}
+.leaflet-control.legend {
+  background: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  font-size: 0.85rem;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 8%;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+nav .logo {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #8c4a22;
+}
+
+nav a {
+  margin-left: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  color: #333;
 }

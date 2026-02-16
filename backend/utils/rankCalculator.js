@@ -42,7 +42,6 @@ async function calculateRanks() {
     );
   }
 
-  console.log("Smart ranks updated.");
 }
 
 module.exports = calculateRanks;

@@ -186,7 +186,6 @@ router.post("/register", async (req, res) => {
 });
 
 
-
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -226,6 +225,7 @@ router.get("/leaderboard", async (req, res) => {
 router.post("/safe-route", async (req, res) => {
 
   try {
+    console.log(process.env.ORS_API_KEY);
 
     const { source, destination } = req.body;
 
@@ -268,7 +268,6 @@ router.post("/safe-route", async (req, res) => {
     const start = await geocode(source);
     const end = await geocode(destination);
 
-    
     const orsResponse = await axios.post(
       "https://api.openrouteservice.org/v2/directions/driving-car/geojson",
       {
