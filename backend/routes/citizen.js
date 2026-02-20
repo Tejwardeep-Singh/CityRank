@@ -148,7 +148,7 @@ router.post("/verify/:id", async (req, res) => {
 
 router.post("/register", async (req, res) => {
 
-  const { name, email, password, latitude, longitude } = req.body;
+  const { name, email,mobile, password, latitude, longitude } = req.body;
 
   if (!latitude || !longitude) {
     return res.send("Location is required for registration");
@@ -178,6 +178,7 @@ router.post("/register", async (req, res) => {
   await Citizen.create({
     name,
     email,
+    mobile,
     password: hashedPassword,
     ward_id: ward.wardNumber
   });

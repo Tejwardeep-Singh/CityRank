@@ -14,7 +14,7 @@ const roadSchema = new mongoose.Schema({
       required: true
     },
     coordinates: {
-      type: [[Number]],   // [[lng, lat], ...]
+      type: [[Number]],
       required: true
     }
   },
@@ -26,7 +26,7 @@ const roadSchema = new mongoose.Schema({
   },
 
   severity: {
-    type: Number,  // 1–5 scale
+    type: Number,
     default: 1
   },
 

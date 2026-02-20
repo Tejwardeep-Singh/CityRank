@@ -6,6 +6,7 @@ const WardOffice = require("../models/wardOffice");
 const Ward = require("../models/ward");
 const Complaint = require("../models/complaint");
 const adminAuth = require("../middleware/adminAuth");
+const Road = require("../models/road");
 const recalculateRanks = require("../utils/recalculateRanks");
 
 const router = express.Router();

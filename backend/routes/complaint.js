@@ -102,8 +102,6 @@ router.post("/submitComplaint", upload.single("roadImage"), async (req, res) => 
       { $inc: { complaintsCount: 1 } }
     );
 
-    console.log("SAVED:", complaint);
-
     
     await recalculateRanks();
 

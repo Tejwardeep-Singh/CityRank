@@ -4,10 +4,12 @@ const path = require("path");
 const connectDB = require("./connection/mongoose");
 const session = require("express-session");
 
+
 const app = express();
 
 
 connectDB();
+require("./models/road");
 
 const recalculateRanks = require("./utils/recalculateRanks");
 recalculateRanks().then(() => {
@@ -45,7 +47,7 @@ app.use("/", citizenPages);
 app.use("/map", citizenMap);
 app.use("/", complaintRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.CITIZEN_PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Citizen Server running on port ${PORT}`);
 });

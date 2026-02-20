@@ -65,7 +65,7 @@ nav {
       rgba(140, 74, 34, 0.85),
       rgba(140, 74, 34, 0.9)
   ),
-  url('../../images/amritsar-map.png') center center no-repeat;
+  url('/images/amritsar-map.png') center center no-repeat;
   background-size:cover;
   display: flex;
   align-items: center;

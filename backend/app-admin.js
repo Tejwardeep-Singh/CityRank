@@ -4,17 +4,20 @@ const path = require("path");
 const connectDB = require("./connection/mongoose");
 const session = require("express-session");
 
+
 const app = express();
 
-// Connect DB
+
 connectDB();
+
+require("./models/road");
 
 const recalculateRanks = require("./utils/recalculateRanks");
 recalculateRanks().then(() => {
   console.log("Initial ranking calculated.");
 });
 
-// Middlewares
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
@@ -31,18 +34,22 @@ app.use(
   })
 );
 
-// Static files (Admin only)
+
 app.use(express.static(path.join(__dirname, "../adminPortal/public")));
 
-// Views folder
+
 app.set("views", path.join(__dirname, "../adminPortal/views"));
 
-// Routes
+
 const adminPages = require("./routes/admin");
 
-app.use("/", adminPages);
+app.get("/", (req, res) => {
+  res.redirect("/admin");
+});
 
-const PORT = process.env.PORT || 5000;
+app.use("/admin", adminPages);
+
+const PORT = process.env.ADMIN_PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Admin Server running on port ${PORT}`);
 });
