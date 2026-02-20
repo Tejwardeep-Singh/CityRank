@@ -47,7 +47,7 @@ app.use("/", citizenPages);
 app.use("/map", citizenMap);
 app.use("/", complaintRoutes);
 
-const PORT = process.env.CITIZEN_PORT || 3000;
+const PORT = process.env.PORT|| 3000;
 app.listen(PORT, () => {
   console.log(`Citizen Server running on port ${PORT}`);
 });

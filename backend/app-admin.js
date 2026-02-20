@@ -24,7 +24,7 @@ app.set("view engine", "ejs");
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "supersecret",
+    secret: process.env.SESSION_SECRET || "kjdbdskjcbjcvudbjchcihvcihsdiy",
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
 
 app.use("/admin", adminPages);
 
-const PORT = process.env.ADMIN_PORT || 4000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Admin Server running on port ${PORT}`);
 });
