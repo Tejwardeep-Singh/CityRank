@@ -22,8 +22,10 @@
                 <h1>Citizen Dashboard</h1>
                 <p>Welcome <strong><%= citizen.name %></strong></p>
 
-                <div class="hero-rank">
-                     Ward: <span><%= ward.wardNumber%></span>
+                <div class="hero-rank ward-edit-wrapper">
+                    Ward: 
+                    <span id="currentWard"><%= ward.wardNumber %></span>
+                    <span class="edit-ward-icon" onclick="openWardModal()">✏️</span>
                 </div>
             </div>
         </section>
@@ -112,6 +114,36 @@
         </section>
         <div id="copywright">
             <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
+        </div>
+
+
+
+        <!-- Change Ward Dialog Box -->
+        <div id="wardModal" class="modal-overlay">
+            <div class="modal-container">
+
+                <div class="modal-header">
+                    <h2>Change Residential Ward</h2>
+                    <span class="close-modal" onclick="closeWardModal()">✖</span>
+                </div>
+
+                <div class="modal-body">
+                    <p><strong>Current Ward:</strong> <span id="modalCurrentWard"><%= ward.wardNumber %></span></p>
+
+                    <div id="detectingText">
+                        Detecting your live location...
+                    </div>
+
+                    <p id="detectedWardResult" class="detected-ward"></p>
+                    <p id="wardError" class="ward-error"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="modal-btn cancel-btn" onclick="closeWardModal()">Close</button>
+                    <button class="modal-btn confirm-btn" id="confirmWardBtn" disabled onclick="confirmWard()">Confirm</button>
+                </div>
+
+            </div>
         </div>
     </main>
     <script>

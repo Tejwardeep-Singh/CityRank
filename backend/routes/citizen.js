@@ -222,6 +222,39 @@ router.get("/leaderboard", async (req, res) => {
   );
 });
 
+router.post("/detect-ward", async (req, res) => {
+  try {
+    const { lat, lng } = req.body;
+
+    const ward = await Ward.findOne({
+      geometry: {
+        $geoIntersects: {
+          $geometry: {
+            type: "Point",
+            coordinates: [lng, lat]
+          }
+        }
+      }
+    });
+
+    if (!ward) {
+      return res.json({ wardNo: null });
+    }
+
+    res.json({ wardNo: ward.wardNumber });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Ward detection failed" });
+  }
+});
+
+router.post("/update-ward", async (req, res) => {
+    await Citizen.findByIdAndUpdate(req.session.userId, {
+        wardNumber: req.body.newWard
+    });
+    res.json({ success: true });
+});
 
 router.post("/safe-route", async (req, res) => {
 

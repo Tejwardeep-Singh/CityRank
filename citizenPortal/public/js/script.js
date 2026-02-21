@@ -1,12 +1,95 @@
-// Initialize map
+let detectedWardNumber = null;
+
+function openWardModal() {
+    document.getElementById("wardModal").style.display = "flex";
+    detectWard();
+}
+
+function closeWardModal() {
+    document.getElementById("wardModal").style.display = "none";
+    document.getElementById("detectedWardResult").innerText = "";
+    document.getElementById("wardError").innerText = "";
+    document.getElementById("confirmWardBtn").disabled = true;
+}
+
+async function detectWard() {
+    if (!navigator.geolocation) {
+        document.getElementById("wardError").innerText =
+            "Geolocation not supported.";
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(async (position) => {
+
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        try {
+            const res = await fetch("/detect-ward", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ lat, lng })
+            });
+
+            const data = await res.json();
+            console.log("Server Response:", data);
+
+            if (data.wardNo !== null && data.wardNo !== undefined) {
+
+                detectedWardNumber = data.wardNo;
+
+                document.getElementById("detectingText").style.display = "none";
+
+                document.getElementById("detectedWardResult").innerText =
+                    "Detected Ward: " + data.wardNo;
+
+                const currentWard =
+                    document.getElementById("currentWard").innerText;
+
+                if (Number(currentWard) === Number(data.wardNo)) {
+                    document.getElementById("wardError").innerText =
+                        "You are already registered in this ward.";
+                } else {
+                    document.getElementById("confirmWardBtn").disabled = false;
+                }
+
+            } else {
+                document.getElementById("wardError").innerText =
+                    "Unable to detect ward.";
+            }
+
+        } catch (err) {
+            console.error(err);
+            document.getElementById("wardError").innerText =
+                "Something went wrong.";
+        }
+
+    }, () => {
+        document.getElementById("wardError").innerText =
+            "Location permission denied.";
+    });
+}
+async function confirmWard() {
+
+    await fetch("/update-ward", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ newWard: detectedWardNumber })
+    });
+
+    location.reload();
+}
+
+
+
     const map = L.map('map').setView([31.6340, 74.8723], 11);
 
-    // Base map (OpenStreetMap)
+    
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    // Load ward GeoJSON
+    
     fetch('/data/amritsar_wards_final.geojson')
       .then(res => res.json())
       .then(data => {
@@ -49,7 +132,7 @@
 
 const form = document.getElementById("complaintForm");
 
-// Get user location automatically when page loads
+
 window.onload = function () {
 
     if (!navigator.geolocation) {
@@ -66,7 +149,8 @@ window.onload = function () {
 };
 
 
-// Handle form submission
+
+
 form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -89,3 +173,5 @@ form.addEventListener("submit", async function (e) {
         alert("Something went wrong.");
     }
 });
+
+
