@@ -35,31 +35,43 @@ router.get("/login", (req, res) => {
 router.get("/dashboard", adminAuth, async (req, res) => {
 
   const ward = await Ward.findOne({
-      wardNumber: req.session.admin.ward_id
-    });
+    wardNumber: req.session.admin.ward_id
+  });
 
-    const topWards = await Ward.find().sort({ rank: 1 }).limit(3);
+  const topWards = await Ward.find().sort({ rank: 1 }).limit(3);
+
+  const wardComplaints = await Complaint.find({
+    wardNumber: ward.wardNumber
+  });
+
+  const pendingCount = wardComplaints.filter(c => c.status === "pending").length;
+  const completedCount = wardComplaints.filter(c => c.status === "completed").length;
 
   
-    const wardComplaints = await Complaint.find({
-      wardNumber: ward.wardNumber
-    });
-  
-  
-    const pendingCount = wardComplaints.filter(c => c.status === "pending").length;
-    const completedCount = wardComplaints.filter(c => c.status === "completed").length;
-  
-    res.render(
-      path.join(__dirname, "../../adminPortal/views/dashboard.ejs"),
-      {
-        citizen: req.session.citizen,
-        ward,
-        topWards,
-        pendingCount,
-        completedCount
-      }
-    );
+  const statusCounts = {
+    pending: 0,
+    "in-progress": 0,
+    resolved: 0,
+    completed: 0
+  };
 
+  wardComplaints.forEach(c => {
+    if (statusCounts[c.status] !== undefined) {
+      statusCounts[c.status]++;
+    }
+  });
+
+  res.render(
+    path.join(__dirname, "../../adminPortal/views/dashboard.ejs"),
+    {
+      citizen: req.session.citizen,
+      ward,
+      topWards,
+      pendingCount,
+      completedCount,
+      statusCounts   
+    }
+  );
 });
 
 

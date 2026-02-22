@@ -45,6 +45,13 @@
                 <p><%= ward.complaintsCount %></p>
             </div>
         </section>
+        <section class="analytics-section">
+            <h2>Complaint Status Distribution</h2>
+
+            <div class="chart-card">
+                <canvas id="statusChart"></canvas>
+            </div>
+        </section>
         <section class="top-wards-section">
             <h2>Top 3 Performing Wards</h2>
 
@@ -84,12 +91,68 @@
     <div id="copywright">
         <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
     </div>
-
-
-    <script>
-        const currentYear = new Date().getFullYear();
-        document.getElementById('year').textContent = currentYear;
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script id="statusData" type="application/json">
+        <%- JSON.stringify(statusCounts || {}) %>
     </script>
+    <script>
+    const currentYear = new Date().getFullYear();
+    document.getElementById('year').textContent = currentYear;
+
+
+    const statusData = JSON.parse(
+        document.getElementById("statusData").textContent
+    );
+
+   
+
+    new Chart(document.getElementById('statusChart'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Pending', 'In Progress', 'Resolved', 'Completed'],
+        datasets: [{
+            data: [
+                statusData.pending || 0,
+                statusData["in-progress"] || 0,
+                statusData.resolved || 0,
+                statusData.completed || 0
+            ],
+            backgroundColor: [
+                '#ff4d4d',
+                '#ff8800',
+                '#ffd000',
+                '#00c853'
+            ],
+            borderWidth: 3,
+            borderColor: "transparent",
+            hoverOffset: 18
+        }]
+    },
+    options: {
+        responsive: true,
+        cutout: '65%',
+        animation: {
+            animateRotate: true,
+            duration: 1200
+        },
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 20,
+                    font: {
+                        size: 14,
+                        weight: 'bold'
+                    }
+                }
+            }
+        }
+    }
+});
+
+    </script>
+
+    
     <script src="/js/script.js"></script>
 </body>
 </html>

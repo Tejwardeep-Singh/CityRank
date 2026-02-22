@@ -649,7 +649,7 @@ nav {
 
 .password-wrapper input {
     width: 100%;
-    padding: 12px 40px 12px 12px; /* extra right padding */
+    padding: 12px 40px 12px 12px;
 }
 
 .toggle-password {
@@ -675,6 +675,75 @@ nav {
 .admin-nr a{
   color: wheat;
 }
+
+.analytics-section {
+    margin: 5vh 0; 
+}
+
+.chart-card {
+    background: linear-gradient(145deg,#F4F1EB, #f5f5f5);
+    padding: 35px;
+    border-radius: 25px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.chart-card canvas {
+    max-width: 420px;
+    max-height: 420px;
+}
+
+
+@media screen and (max-width: 1024px) {
+
+    .dashboard-container {
+        padding: 15px;
+    }
+
+
+    .kpi-section {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+
+    .top-wards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+
+    .complaint-cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+      .admin-content {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .admin-map-container,
+    .admin-complaint-list {
+        width: 100%;
+    }
+
+    #map {
+        height: 450px;
+    }
+    .chart-card {
+        padding: 25px;
+    }
+
+    .chart-card canvas {
+        max-width: 350px;
+        max-height: 350px;
+    }
+}
+
 @media (max-width: 768px) {
 
     nav {
@@ -709,5 +778,139 @@ nav {
       width: 80vw;
       pointer-events: all;
     }
+    .dashboard-header h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
     
+    .kpi-section {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    
+    .top-wards {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+   
+    .complaint-cards {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+
+    .kpi-card,
+    .ward-card,
+    .complaint-card {
+        padding: 15px;
+    }
+
+    .kpi-card p,
+    .complaint-card p {
+        font-size: 1.2rem;
+    }
+    .admin-nr a{
+      color: black;
+    }
+     .admin-complaint-section {
+        padding: 20px 15px;
+    }
+
+    .admin-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .admin-header p {
+        font-size: 0.9rem;
+    }
+
+    .admin-content {
+      display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    #map {
+        height: 360px;
+    }
+
+    .admin-complaint-card {
+        padding: 16px;
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .status-badge {
+        align-self: flex-start;
+    }
+
+    .admin-detail-grid{
+      display: flex;
+      flex-direction: column;
+    }
+    .admin-detail-header{
+      flex-direction: column;
+      align-items:start;
+      justify-content:start;
+    }
+    #leaderboard-pg1-container h1{
+      font-size:3vh
+    }
+     .chart-card {
+        padding: 20px;
+    }
+
+    .chart-card canvas {
+        max-width: 280px;
+        max-height: 280px;
+    }
+}
+
+
+@media screen and (max-width: 480px) {
+
+    .dashboard-container {
+        padding: 10px;
+    }
+
+    .kpi-card p,
+    .complaint-card p {
+        font-size: 1rem;
+    }
+
+    .ward-card h3 {
+        font-size: 1rem;
+    }
+
+    .ward-card p {
+        font-size: 0.9rem;
+    }
+    .admin-nr a{
+      color: black;
+    }
+    #map {
+        height: 300px;
+    }
+
+    .admin-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .admin-header p {
+        font-size: 0.85rem;
+    }
+
+    .admin-complaint-card {
+        padding: 14px;
+    }
 }
