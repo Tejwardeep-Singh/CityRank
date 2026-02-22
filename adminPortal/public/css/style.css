@@ -663,6 +663,15 @@ nav {
     user-select: none;
 }
 
+.auth-error {
+    background: #ffe5e5;
+    color: #c0392b;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
 @media (max-width: 768px) {
 
     nav {

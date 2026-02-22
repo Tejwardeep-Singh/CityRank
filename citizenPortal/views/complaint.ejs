@@ -11,9 +11,7 @@
     <title>Route Rakshak | Citizen </title>
 </head>
 <body class="complaint-page">
-    <main>
-
-        <nav class="main-nav">
+    <nav class="main-nav">
             <div class="menu-toggle" onclick="toggleMenu()">
                 ☰
             </div>
@@ -65,9 +63,18 @@
         <div id="copywright">
             <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
         </div>
-
-    </main>
     <script>
+        function togglePassword() {
+    const input = document.getElementById("passwordInput");
+
+    if (!input) return;
+
+    if (input.type === "password") {
+        input.type = "text";
+    } else {
+        input.type = "password";
+    }
+}
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
             function (position) {

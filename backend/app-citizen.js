@@ -12,9 +12,7 @@ connectDB();
 require("./models/road");
 
 const recalculateRanks = require("./utils/recalculateRanks");
-recalculateRanks().then(() => {
-  console.log("Initial ranking calculated.");
-});
+recalculateRanks();
 
 
 app.use(express.json());

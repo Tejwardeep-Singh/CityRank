@@ -25,7 +25,9 @@ router.get("/", async(req, res) => {
 
 router.get("/login", (req, res) => {
   res.render(
-    path.join(__dirname, "../../adminPortal/views/login.ejs")
+    path.join(__dirname, "../../adminPortal/views/login.ejs"),{
+        error: req.query.error
+    }
   );
 });
 
@@ -66,10 +68,10 @@ router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   const admin = await WardOffice.findOne({ username });
-  if (!admin) return res.redirect("/admin/login");
+  if (!admin) return res.redirect("/admin/login?error=Invalid email or Password");
 
   const match = await bcrypt.compare(password, admin.password);
-  if (!match) return res.redirect("/admin/login");
+  if (!match) return res.redirect("/admin/login?error=Invalid email or password");
 
   req.session.admin = {
     ward_id: admin.ward_id

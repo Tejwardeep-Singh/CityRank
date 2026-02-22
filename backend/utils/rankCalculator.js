@@ -15,9 +15,20 @@ async function calculateRanks() {
     let completedCount = 0;
 
     complaints.forEach(c => {
-      if (c.status === "pending") score += 3;
-      if (c.status === "resolved") score += 1;
-      if (c.status === "completed") completedCount += 1;
+
+      if (c.status === "completed") {
+        score += 10;
+        completedCount += 1;
+      }
+
+      if (c.status === "resolved") {
+        score += 5;
+      }
+
+      if (c.status === "pending") {
+        score -= 5;
+      }
+
     });
 
     await Ward.updateOne(
@@ -29,9 +40,8 @@ async function calculateRanks() {
     );
   }
 
-
   const sorted = await Ward.find().sort({
-    score: 1,
+    score: -1,
     completedCount: -1
   });
 
@@ -41,7 +51,6 @@ async function calculateRanks() {
       { rank: i + 1 }
     );
   }
-
 }
 
 module.exports = calculateRanks;

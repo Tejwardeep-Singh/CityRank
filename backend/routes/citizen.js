@@ -30,7 +30,9 @@ router.get("/register", (req, res) => {
 
 
 router.get("/login", (req, res) => {
-  res.render(path.join(__dirname, "../../citizenPortal/views/login.ejs"));
+  res.render(path.join(__dirname, "../../citizenPortal/views/login.ejs"),{
+        error: req.query.error
+    });
 });
 
 
@@ -191,10 +193,10 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   const citizen = await Citizen.findOne({ email });
-  if (!citizen) return res.redirect("/login");
+  if (!citizen) return res.redirect("/login?error=Invalid email or password");
 
   const match = await bcrypt.compare(password, citizen.password);
-  if (!match) return res.redirect("/login");
+  if (!match) return res.redirect("/login?error=Invalid email or password");
 
   req.session.citizen = {
     id: citizen._id,
