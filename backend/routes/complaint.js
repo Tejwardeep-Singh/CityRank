@@ -99,7 +99,7 @@ router.post("/submitComplaint", upload.single("roadImage"), async (req, res) => 
     console.log("Complaint created for ward:", ward.wardNumber);
     console.log("About to send event to Pathway...");
     try {
-      const response = await fetch("https://pathway-3gt1.onrender.com/", {
+      const response = await fetch("https://pathway-3gt1.onrender.com/event", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

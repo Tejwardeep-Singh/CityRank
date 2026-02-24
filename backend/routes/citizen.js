@@ -99,7 +99,7 @@ router.post("/verify/:id", async (req, res) => {
       await road.save();
     }
     // await recalculateRanks();
-    await fetch("https://pathway-3gt1.onrender.com/", {
+    await fetch("https://pathway-3gt1.onrender.com/event", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

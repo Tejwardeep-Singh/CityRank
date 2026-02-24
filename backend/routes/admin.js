@@ -163,7 +163,7 @@ router.post("/resolve/:id", upload.single("afterImage"), async (req, res) => {
       await complaint.road.save();
     }
     // await recalculateRanks();
-    await fetch("https://pathway-3gt1.onrender.com/", {
+    await fetch("https://pathway-3gt1.onrender.com/event", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
