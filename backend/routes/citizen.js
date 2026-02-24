@@ -261,10 +261,28 @@ router.post("/detect-ward", async (req, res) => {
 });
 
 router.post("/update-ward", async (req, res) => {
-    await Citizen.findByIdAndUpdate(req.session.userId, {
-        wardNumber: req.body.newWard
-    });
-    res.json({ success: true });
+    try {
+
+        if (!req.session.citizen) {
+            return res.status(401).json({ success: false });
+        }
+
+        console.log("Updating ward to:", req.body.newWard);
+        console.log("Citizen ID:", req.session.citizen.id);
+
+        await Citizen.findByIdAndUpdate(
+            req.session.citizen.id,
+            { wardNumber: req.body.newWard }
+        );
+
+        req.session.citizen.ward_id = req.body.newWard;
+
+        res.json({ success: true });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false });
+    }
 });
 
 router.post("/safe-route", async (req, res) => {
