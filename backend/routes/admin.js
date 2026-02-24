@@ -162,7 +162,16 @@ router.post("/resolve/:id", upload.single("afterImage"), async (req, res) => {
       complaint.road.condition = "under_repair";
       await complaint.road.save();
     }
-    await recalculateRanks();
+    // await recalculateRanks();
+    await fetch("http://localhost:8000/event", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        wardNumber: complaint.wardNumber,
+        status: "resolved",
+        createdAt: new Date()
+      })
+    });
     
     res.redirect("/admin/adminComplaints");
 

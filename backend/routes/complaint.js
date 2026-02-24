@@ -95,15 +95,32 @@ router.post("/submitComplaint", upload.single("roadImage"), async (req, res) => 
       verifiedByCitizen: false,
       road: road._id
     });
+    console.log("Sending event to Pathway:", ward.wardNumber);
+    console.log("Complaint created for ward:", ward.wardNumber);
+    console.log("About to send event to Pathway...");
+    try {
+      const response = await fetch("http://localhost:8000/event", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          wardNumber: ward.wardNumber,
+          status: "pending",
+          createdAt: new Date()
+        })
+      });
 
-   
+      console.log("Pathway response status:", response.status);
+    } catch (err) {
+      console.error("Fetch error:", err);
+    }
+    console.log("Sending event to Pathway:", ward.wardNumber);
     await Ward.updateOne(
       { wardNumber: ward.wardNumber },
       { $inc: { complaintsCount: 1 } }
     );
 
     
-    await recalculateRanks();
+    // await recalculateRanks();
 
     return res.redirect("/dashboard?success=1");
 

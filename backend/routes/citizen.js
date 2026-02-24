@@ -98,7 +98,16 @@ router.post("/verify/:id", async (req, res) => {
       road.condition = "good";
       await road.save();
     }
-    await recalculateRanks();
+    // await recalculateRanks();
+    await fetch("http://localhost:8000/event", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        wardNumber: complaint.wardNumber,
+        status: "completed",
+        createdAt: new Date()
+      })
+    });
     res.redirect("/dashboard");
 
   } catch (err) {

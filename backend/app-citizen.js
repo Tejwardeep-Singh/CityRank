@@ -12,7 +12,7 @@ connectDB();
 require("./models/road");
 
 const recalculateRanks = require("./utils/recalculateRanks");
-recalculateRanks();
+// recalculateRanks();
 
 
 app.use(express.json());
