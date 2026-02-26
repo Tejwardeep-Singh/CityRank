@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="assets/banner.png" width="100%" alt="Route Rakshak Banner">
+</p>
+
+# 🛣️ Route Rakshak  
+### Smarter Roads. Transparent Governance.
 
 ![Node.js](https://img.shields.io/badge/Backend-Node.js-green)
 ![Express](https://img.shields.io/badge/Framework-Express-black)
@@ -8,222 +14,210 @@
 ![Deployment](https://img.shields.io/badge/Deployment-Render-purple)
 ![Hackathon](https://img.shields.io/badge/Built%20For-Hackathon-red)
 
+---
 
+## 📌 Overview
 
-Route Rakshak
-Smarter Roads. Transparent Governance.
+Route Rakshak is a civic-tech platform designed to improve road and infrastructure management through citizen participation and data-driven ward performance tracking.  
 
-Route Rakshak is a civic-tech platform designed to improve road and infrastructure management through citizen participation and data-driven ward performance tracking. It transforms traditional complaint systems into an intelligent governance tool that promotes transparency, accountability, and faster resolution of civic issues.
+It transforms traditional complaint systems into an intelligent governance tool that promotes transparency, accountability, and faster resolution of civic issues.
 
+---
 
+## 🚀 Problem Statement
 
+Urban infrastructure complaint systems often suffer from:
 
-🚀 Problem Statement
-
-Urban infrastructure complaints often suffer from:
-
-Delayed responses from authorities
-
-Lack of transparency
-
-No ward-level performance tracking
-
-Poor accountability mechanisms
-
-No structured comparison between administrative units
+- Delayed responses from authorities  
+- Lack of transparency  
+- No ward-level performance tracking  
+- Weak accountability mechanisms  
+- No structured comparison between administrative units  
 
 Existing systems allow complaint registration but rarely convert that data into actionable governance insights.
 
+---
 
-
-
-💡 Our Solution
+## 💡 Our Solution
 
 Route Rakshak introduces a smart civic monitoring platform that:
 
-Enables citizens to report infrastructure issues
+- Enables citizens to report infrastructure issues  
+- Tracks complaints systematically  
+- Implements an automated ward ranking system  
+- Encourages performance-driven governance  
+- Promotes transparency through measurable metrics  
 
-Tracks complaints systematically
+Instead of being just a complaint portal, Route Rakshak acts as a **Governance Intelligence System**.
 
-Implements an automated ward ranking system
+---
 
-Encourages performance-driven governance
+## ✨ Key Features
 
-Promotes transparency through measurable metrics
+### 👤 Citizen Portal
+- Secure registration & login  
+- Ward selection & update  
+- Complaint submission  
+- Complaint tracking  
+- Session-based authentication  
 
-Instead of being just a complaint portal, Route Rakshak acts as a governance intelligence system.
+### 🏆 Ward Ranking System
+- Automatic ward performance recalculation  
+- Ranking based on complaint resolution efficiency  
+- Encourages healthy administrative competition  
 
+### 🗺️ Map Integration
+- Location-based complaint representation  
+- Visual monitoring of infrastructure issues  
 
+### 🔐 Security
+- Password hashing using bcrypt  
+- Session-based authentication  
+- Protected backend routes  
 
+---
 
+## 🏗️ System Architecture
 
-✨ Key Features
+Route Rakshak follows a modular multi-panel architecture with clear separation of concerns.
 
+### 📌 Architecture Layers
 
-👤 Citizen Portal
+#### 1️⃣ Client Layer
+- Built using EJS templates  
+- Handles UI rendering  
+- Sends requests to backend  
+- Session-based authentication  
 
-Secure registration & login
+#### 2️⃣ Server Layer (Node.js + Express)
+- Handles routing logic  
+- Manages authentication  
+- Processes complaint submissions  
+- Updates ward rankings  
+- Controls session management  
+- Implements middleware security  
 
-Ward selection & update
+#### 3️⃣ Database Layer (MongoDB + Mongoose)
+- Stores citizen data  
+- Stores complaint records  
+- Stores ward & ranking data  
+- Maintains relational references via ObjectIds  
 
-Complaint submission
+#### 4️⃣ Ranking Engine
+- Recalculates ward performance  
+- Evaluates complaint resolution rates  
+- Updates rankings dynamically  
+- Ensures data consistency  
 
-Complaint tracking
+---
 
-Session-based authentication
+## 📊 Data Flow
 
-🏆 Ward Ranking System
+1. Citizen logs in  
+2. Complaint is submitted  
+3. Complaint stored in MongoDB  
+4. Ward statistics updated  
+5. Ranking recalculated  
+6. Dashboard reflects updated performance  
 
-Automatic ward performance recalculation
+---
 
-Ranking based on complaint resolution efficiency
+## 📂 Project Structure
 
-Encourages healthy administrative competition
 
-🗺️ Map Integration
+## 📂 Project Structure
 
-Location-based complaint representation
+```bash
+RouteRakshak/
+│
+├── backend/          # Core server logic & database models
+├── citizen-panel/    # Citizen-facing interface
+├── admin-panel/      # Administrative dashboard
+├── assets/           # Banner & screenshots
+├── LICENSE
+├── .env.example
+└── README.md
 
-Visual monitoring of infrastructure issues
 
-🔐 Security
 
-Password hashing using bcrypt
+## 🏗️ Tech Stack
 
-Session-based authentication
+### Backend
+- Node.js  
+- Express.js  
+- MongoDB  
+- Mongoose  
 
-Protected backend routes
+### Frontend
+- EJS  
+- HTML  
+- CSS  
+- JavaScript  
 
+### Security
+- bcrypt  
+- express-session  
 
+### Deployment
+- Render  
 
+### Version Control
+- GitHub  
 
+---
 
-🏗️ Tech Stack
+## ⚙️ Installation & Setup
 
-Backend
+```bash
+git clone https://github.com/Tejwardeep-Singh/RouteRakshak.git
+cd route-rakshak
+npm install
 
-Node.js
+Create a .env file:
 
-Express.js
+MONGO_URI=your_mongodb_connection_string
+SESSION_SECRET=your_secret_key
+PORT=3000
 
-MongoDB
+Start the server:
 
-Mongoose
+for citizen portal--
 
-Frontend
+cd backend
+npx nodemon app-citizen.js
 
-EJS
+for admin portal
 
-HTML
+cd backend
+npx nodemon app-admin.js
 
-CSS
+Server runs on:
 
-JavaScript
+http://localhost:3000 ---- citizen portal
 
-Security & Auth
+http://localhost:4000 ---- admin portal
 
-bcrypt
+🚀 Live Demo
 
-express-session
+Citizen Portal:
+https://routerakshak.onrender.com/
 
-Deployment
-
-Render
-
-Version Control
-
-GitHub
-
-
-
-
-
-🏗 System Architecture
-
-Route Rakshak follows a structured MVC-inspired architecture with clear separation of concerns.
-
-📌 1. Client Layer
-
-Built using EJS templates
-
-Handles UI rendering
-
-Sends requests to backend via forms or API calls
-
-Session-based authentication
-
-📌 2. Server Layer (Node.js + Express)
-
-Handles routing logic
-
-Manages authentication
-
-Processes complaint submissions
-
-Updates ward rankings
-
-Controls session management
-
-Implements middleware security
-
-📌 3. Database Layer (MongoDB + Mongoose)
-
-Stores:
-
-Citizen data
-
-Complaint records
-
-Ward data
-
-Ranking metrics
-
-Performs dynamic updates
-
-Maintains relational references via ObjectIds
-
-📌 4. Ranking Engine
-
-Recalculates ward performance
-
-Evaluates complaint resolution rates
-
-Updates ranking dynamically
-
-Ensures data consistency
-
-📊 Data Flow
-
-Citizen logs in
-
-Submits complaint
-
-Complaint stored in MongoDB
-
-Ward statistics updated
-
-Ranking recalculated
-
-Dashboard reflects new ranking
-
-
+Admin Panel:
+https://routerakshakadmin.onrender.com/admin
 
 🎯 Innovation
 
-The core innovation of Route Rakshak lies in transforming complaint data into performance metrics. Unlike traditional civic portals that only log complaints, Route Rakshak:
+The core innovation of Route Rakshak lies in transforming complaint data into measurable governance metrics.
+
+Unlike traditional civic portals that only log complaints, Route Rakshak:
 
 Introduces automated ward ranking
 
-Creates measurable governance performance indicators
+Creates performance-driven accountability
 
-Encourages transparency through structured analytics
+Enables comparative governance analysis
 
-Bridges citizen participation with administrative accountability
-
-
-
-
-
+Bridges citizen participation with administrative evaluation
 
 📈 Future Scope
 
@@ -239,10 +233,6 @@ Predictive infrastructure damage detection
 
 Geo-fencing for automatic ward detection
 
-
-
-
-
 🌍 Impact
 
 Route Rakshak aims to:
@@ -257,35 +247,23 @@ Promote data-driven decision making
 
 Build trust between citizens and authorities
 
+👥 Contributors
 
+Tejwardeep Singh – Project Manager
 
+Eklavya – Backend Developer
 
-*******************Demo*******************
+Snehdeep Kaur – Designer
 
-Example:
+Aemryene Sandhu – Designer
 
-https://routerakshak.onrender.com/
-https://routerakshakadmin.onrender.com/admin
+📜 License
 
+This project is licensed under the MIT License – see the LICENSE
+ file for details.
 
-******************Contributors*******************
+🏁 Conclusion
 
-Tejwardeep Singh
-B.Tech CSE (2024–2028)
-project Manager
+Route Rakshak reimagines civic complaint systems by combining citizen participation with measurable governance performance.
 
-Eklavya
-B.Tech CSE (2024–2028)
-Backend Dev
-
-Snehdeep Kaur
-B.Tech CSE (2024–2028)
-Designer
-
-Aemryene Sandhu
-B.Tech CSE (2024–2028)
-Designer
-
-*******************Conclusion*******************
-
-Route Rakshak reimagines civic complaint systems by combining citizen participation with measurable governance performance. It is not just a reporting platform — it is an accountability engine designed to build smarter, more transparent cities.
+It is not just a reporting platform — it is an accountability engine designed to build smarter, more transparent cities.
