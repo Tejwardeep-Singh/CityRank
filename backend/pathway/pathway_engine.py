@@ -56,4 +56,9 @@ async def receive_event(event: ComplaintEvent):
     return {"status": "streamed"}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    import os
+    uvicorn.run(
+        "pathway_engine:app",
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 8000))
+    )
