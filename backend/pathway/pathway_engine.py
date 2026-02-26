@@ -11,7 +11,7 @@ class ComplaintSchema(pw.Schema):
     status: str
 
 complaint_stream = pw.io.python.read(
-    subject="complaints",
+    subject=pw.io.python.ConnectorSubject(),
     schema=ComplaintSchema
 )
 
