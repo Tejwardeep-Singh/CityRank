@@ -10,7 +10,10 @@ class ComplaintSchema(pw.Schema):
     wardNumber: int
     status: str
 
-complaint_stream = pw.io.python.read(schema=ComplaintSchema)
+complaint_stream = pw.io.python.read(
+    subject="complaints",
+    schema=ComplaintSchema
+)
 
 score_map = {
     "completed": 10,
