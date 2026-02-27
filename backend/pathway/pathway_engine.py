@@ -6,6 +6,7 @@ import threading
 app = FastAPI()
 
 complaint_stream = None
+subject = None
 
 
 class ComplaintSchema(pw.Schema):
@@ -14,9 +15,14 @@ class ComplaintSchema(pw.Schema):
 
 
 def setup_pathway():
-    global complaint_stream
+    global complaint_stream, subject
 
-    complaint_stream = pw.io.python.read(schema=ComplaintSchema)
+    subject = pw.io.python.InputSubject()
+
+    complaint_stream = pw.io.python.read(
+        subject=subject,
+        schema=ComplaintSchema
+    )
 
     score_map = {
         "completed": 10,
@@ -62,7 +68,7 @@ class ComplaintEvent(BaseModel):
 
 @app.post("/event")
 async def receive_event(event: ComplaintEvent):
-    complaint_stream.write({
+    subject.write({
         "wardNumber": event.wardNumber,
         "status": event.status
     })
