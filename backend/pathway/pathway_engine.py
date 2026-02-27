@@ -5,6 +5,7 @@ import threading
 
 app = FastAPI()
 
+complaint_stream = None
 
 
 class ComplaintSchema(pw.Schema):
@@ -12,53 +13,52 @@ class ComplaintSchema(pw.Schema):
     status: str
 
 
-complaint_stream = pw.io.python.read(
-    schema=ComplaintSchema
-)
+def setup_pathway():
+    global complaint_stream
 
+    complaint_stream = pw.io.python.read(schema=ComplaintSchema)
 
+    score_map = {
+        "completed": 10,
+        "resolved": 5,
+        "pending": -5,
+        "in-progress": -2
+    }
 
-score_map = {
-    "completed": 10,
-    "resolved": 5,
-    "pending": -5,
-    "in-progress": -2
-}
+    scored = complaint_stream.select(
+        wardNumber=pw.this.wardNumber,
+        score=pw.apply(lambda s: score_map.get(s, 0), pw.this.status)
+    )
 
-scored = complaint_stream.select(
-    wardNumber=pw.this.wardNumber,
-    score=pw.apply(lambda s: score_map.get(s, 0), pw.this.status)
-)
+    aggregated = scored.groupby(
+        pw.this.wardNumber
+    ).reduce(
+        wardNumber=pw.this.wardNumber,
+        performanceScore=pw.reducers.sum(pw.this.score)
+    )
 
-aggregated = scored.groupby(
-    pw.this.wardNumber
-).reduce(
-    wardNumber=pw.this.wardNumber,
-    performanceScore=pw.reducers.sum(pw.this.score)
-)
+    ranked = aggregated.sort(
+        key=pw.this.performanceScore,
+        reverse=True
+    )
 
-ranked = aggregated.sort(
-    key=pw.this.performanceScore,
-    reverse=True
-)
-
-
-pw.io.print(ranked)
-
+    pw.io.print(ranked)
 
 
 def run_pathway():
     pw.run()
 
+
 @app.on_event("startup")
 async def startup_event():
+    setup_pathway()
     threading.Thread(target=run_pathway, daemon=True).start()
-
 
 
 class ComplaintEvent(BaseModel):
     wardNumber: int
     status: str
+
 
 @app.post("/event")
 async def receive_event(event: ComplaintEvent):
