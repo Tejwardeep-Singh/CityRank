@@ -2,7 +2,6 @@ import pathway as pw
 from fastapi import FastAPI
 from pydantic import BaseModel
 import threading
-import os
 
 app = FastAPI()
 
@@ -12,10 +11,12 @@ class ComplaintSchema(pw.Schema):
     wardNumber: int
     status: str
 
+
 complaint_stream = pw.io.python.read(
-    subject=pw.io.python.ConnectorSubject(),
     schema=ComplaintSchema
 )
+
+
 
 score_map = {
     "completed": 10,
@@ -40,6 +41,7 @@ ranked = aggregated.sort(
     key=pw.this.performanceScore,
     reverse=True
 )
+
 
 pw.io.print(ranked)
 
