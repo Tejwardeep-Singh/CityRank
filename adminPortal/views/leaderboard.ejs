@@ -36,15 +36,14 @@
                     </div>
 
                     <% wards.forEach((ward, index) => { %>
-
                         <div class="ward-row 
-                            <%= ward.rank === 1 ? 'top1' : '' %>
-                            <%= ward.rank === 2 ? 'top2' : '' %>
-                            <%= ward.rank === 3 ? 'top3' : '' %>
+                            <%= index === 0 ? 'top1' : '' %>
+                            <%= index === 1 ? 'top2' : '' %>
+                            <%= index === 2 ? 'top3' : '' %>
                         ">
 
                             <div class="rank-badge">
-                                #<%= ward.rank %>
+                                #<%= index + 1 %>
                             </div>
 
                             <div>

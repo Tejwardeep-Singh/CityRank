@@ -7,7 +7,8 @@ const recalculateRanks = require("../utils/recalculateRanks");
 const Road = require("../models/road");
 const multer = require("multer");
 const { storage } = require("../config/cloudinary");  
-const upload = multer({ storage });                   
+const upload = multer({ storage });                  
+const fs = require("fs");
 
 router.post("/submitComplaint", upload.single("roadImage"), async (req, res) => {
   try {
@@ -95,29 +96,16 @@ router.post("/submitComplaint", upload.single("roadImage"), async (req, res) => 
       verifiedByCitizen: false,
       road: road._id
     });
-    console.log("Sending event to Pathway:", ward.wardNumber);
-    console.log("Complaint created for ward:", ward.wardNumber);
-    console.log("About to send event to Pathway...");
-    try {
-      const response = await fetch("https://pathway-3gt1.onrender.com/event", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          wardNumber: ward.wardNumber,
-          status: "pending",
-          createdAt: new Date()
-        })
-      });
+    const eventsPath = path.join(__dirname, "../../events.jsonl");
 
-      console.log("Pathway response status:", response.status);
-    } catch (err) {
-      console.error("Fetch error:", err);
-    }
-    console.log("Sending event to Pathway:", ward.wardNumber);
-    await Ward.updateOne(
-      { wardNumber: ward.wardNumber },
-      { $inc: { complaintsCount: 1 } }
+    fs.appendFileSync(
+      eventsPath,
+      JSON.stringify({
+        wardNumber: ward.wardNumber,
+        status: "pending"
+      }) + "\n"
     );
+        
 
     
     // await recalculateRanks();

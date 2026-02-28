@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const axios = require("axios");
 const turf = require("@turf/turf");
 
-
+const fs = require("fs");
 const Citizen = require("../models/citizen");
 const WardOffice = require("../models/wardOffice");
 const Ward = require("../models/ward");
@@ -42,6 +42,13 @@ router.get("/dashboard", citizenAuth, async (req, res) => {
     wardNumber: req.session.citizen.ward_id
   });
 
+ 
+  const allWards = await Ward.find().sort({ performanceScore: -1 });
+
+  
+  const wardRank =
+    allWards.findIndex(w => w.wardNumber === ward.wardNumber) + 1;
+
   const wardComplaints = await Complaint.find({
     wardNumber: ward.wardNumber
   });
@@ -50,14 +57,18 @@ router.get("/dashboard", citizenAuth, async (req, res) => {
     userName: req.session.citizen.name
   });
 
-  const pendingCount = wardComplaints.filter(c => c.status === "pending").length;
-  const completedCount = wardComplaints.filter(c => c.status === "completed").length;
+  const pendingCount =
+    wardComplaints.filter(c => c.status === "pending").length;
+
+  const completedCount =
+    wardComplaints.filter(c => c.status === "completed").length;
 
   res.render(
     path.join(__dirname, "../../citizenPortal/views/dashboard.ejs"),
     {
       citizen: req.session.citizen,
       ward,
+      wardRank,  
       yourComplaints,
       pendingCount,
       completedCount
@@ -99,16 +110,15 @@ router.post("/verify/:id", async (req, res) => {
       await road.save();
     }
     // await recalculateRanks();
-    await fetch("https://pathway-3gt1.onrender.com/event", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    const eventsPath = path.join(__dirname, "../../events.jsonl");
+    fs.appendFileSync(
+      eventsPath,
+      JSON.stringify({
         wardNumber: complaint.wardNumber,
-        status: "completed",
-        createdAt: new Date()
-      })
-    });
-    res.redirect("/dashboard");
+        status: "completed"
+      }) + "\n"
+    );
+        res.redirect("/dashboard");
 
   } catch (err) {
     console.error(err);
@@ -225,7 +235,9 @@ router.get("/logout", (req, res) => {
 
 router.get("/leaderboard", async (req, res) => {
 
-  const wards = await Ward.find().sort({ rank: 1 });
+  const wards = await Ward.find()
+    .sort({ performanceScore: -1 });
+
 
   res.render(
     path.join(__dirname, "../../citizenPortal/views/leaderboard.ejs"),

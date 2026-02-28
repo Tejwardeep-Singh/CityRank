@@ -32,7 +32,7 @@
         <section class="kpi-section">
             <div class="kpi-card">
                 <h3>Ward Rank</h3>
-                <p><%= ward.rank%></p>
+                <p>#<%= wardRank %></p>
             </div>
 
             <div class="kpi-card">
@@ -56,9 +56,9 @@
             <h2>Top 3 Performing Wards</h2>
 
             <div class="top-wards">
-                <% topWards.forEach(ward => { %>
+                <% topWards.forEach((ward, index) => { %>
                     <div class="ward-card">
-                        <span class="rank">#<%= ward.rank %></span>
+                        <span class="rank">#<%= index + 1 %></span>
                         <h3>Ward <%= ward.wardNumber %></h3>
                         <p>Score: <%= ward.performanceScore %></p>
                     </div>

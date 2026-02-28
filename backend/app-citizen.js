@@ -3,12 +3,18 @@ const express = require("express");
 const path = require("path");
 const connectDB = require("./connection/mongoose");
 const session = require("express-session");
-
+const syncRankingToDB = require("./utils/syncRanking");
 
 const app = express();
 
 
 connectDB();
+
+connectDB();
+setInterval(() => {
+  syncRankingToDB();
+}, 3000);
+
 require("./models/road");
 
 const recalculateRanks = require("./utils/recalculateRanks");

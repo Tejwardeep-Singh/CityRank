@@ -8,6 +8,7 @@ const Complaint = require("../models/complaint");
 const adminAuth = require("../middleware/adminAuth");
 const Road = require("../models/road");
 const recalculateRanks = require("../utils/recalculateRanks");
+const fs = require("fs");
 
 const router = express.Router();
 
@@ -38,16 +39,26 @@ router.get("/dashboard", adminAuth, async (req, res) => {
     wardNumber: req.session.admin.ward_id
   });
 
-  const topWards = await Ward.find().sort({ rank: 1 }).limit(3);
+ 
+  const allWards = await Ward.find().sort({ performanceScore: -1 });
+
+
+  const wardRank =
+    allWards.findIndex(w => w.wardNumber === ward.wardNumber) + 1;
+
+
+  const topWards = allWards.slice(0, 3);
 
   const wardComplaints = await Complaint.find({
     wardNumber: ward.wardNumber
   });
 
-  const pendingCount = wardComplaints.filter(c => c.status === "pending").length;
-  const completedCount = wardComplaints.filter(c => c.status === "completed").length;
+  const pendingCount =
+    wardComplaints.filter(c => c.status === "pending").length;
 
-  
+  const completedCount =
+    wardComplaints.filter(c => c.status === "completed").length;
+
   const statusCounts = {
     pending: 0,
     "in-progress": 0,
@@ -64,12 +75,13 @@ router.get("/dashboard", adminAuth, async (req, res) => {
   res.render(
     path.join(__dirname, "../../adminPortal/views/dashboard.ejs"),
     {
-      citizen: req.session.citizen,
+      admin: req.session.admin,
       ward,
+      wardRank,      
       topWards,
       pendingCount,
       completedCount,
-      statusCounts   
+      statusCounts
     }
   );
 });
@@ -163,15 +175,14 @@ router.post("/resolve/:id", upload.single("afterImage"), async (req, res) => {
       await complaint.road.save();
     }
     // await recalculateRanks();
-    await fetch("https://pathway-3gt1.onrender.com/event", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    const eventsPath = path.join(__dirname, "../../events.jsonl");
+    fs.appendFileSync(
+      eventsPath,
+      JSON.stringify({
         wardNumber: complaint.wardNumber,
-        status: "resolved",
-        createdAt: new Date()
-      })
-    });
+        status: "resolved"
+      }) + "\n"
+    );
     
     res.redirect("/admin/adminComplaints");
 
@@ -184,7 +195,9 @@ router.post("/resolve/:id", upload.single("afterImage"), async (req, res) => {
 
 router.get("/leaderboard", async (req, res) => {
 
-  const wards = await Ward.find().sort({ rank: 1 });
+  const wards = await Ward.find()
+    .sort({ performanceScore: -1 });
+
 
   res.render(
     path.join(__dirname, "../../adminPortal/views/leaderboard.ejs"),
