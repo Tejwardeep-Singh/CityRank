@@ -109,7 +109,7 @@ router.post("/verify/:id", async (req, res) => {
       road.condition = "good";
       await road.save();
     }
-    // await recalculateRanks();
+    await recalculateRanks();
     const eventsPath = path.join(__dirname, "../pathway/events.jsonl");
     fs.appendFileSync(
       eventsPath,
