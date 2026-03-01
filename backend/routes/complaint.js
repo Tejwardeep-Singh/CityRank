@@ -108,7 +108,7 @@ router.post("/submitComplaint", upload.single("roadImage"), async (req, res) => 
         
 
     
-    // await recalculateRanks();
+     await recalculateRanks();
 
     return res.redirect("/dashboard?success=1");
 
